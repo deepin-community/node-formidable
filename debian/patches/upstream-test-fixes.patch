@@ -1,0 +1,88 @@
+Description: backport upstream tests fixes
+Forwarded: not-needed
+Last-Update: 2020-07-28
+--- a/test/standalone/test-connection-aborted.js
++++ b/test/standalone/test-connection-aborted.js
+@@ -20,7 +20,12 @@
+   form.on('end', () => {
+     throw new Error('Unexpected "end" event');
+   });
+-  form.parse(req);
++  form.parse(req, () => {
++    assert(
++      abortedReceived,
++      'from .parse() callback: Error event should follow aborted',
++    );
++  });
+ });
+ 
+ server.listen(PORT, 'localhost', () => {
+--- a/test/standalone/test-keep-alive-error.js
++++ b/test/standalone/test-keep-alive-error.js
+@@ -8,7 +8,7 @@
+ let ok = 0;
+ let errors = 0;
+ 
+-const PORT = 13532;
++const PORT = 0;
+ const server = http.createServer((req, res) => {
+   const form = formidable();
+   form.on('error', () => {
+@@ -24,7 +24,7 @@
+   form.parse(req);
+ });
+ 
+-server.listen(PORT, 'localhost', () => {
++server.listen(PORT, () => {
+   const choosenPort = server.address().port;
+   const url = `http://localhost:${choosenPort}`;
+   console.log('Server up and running at:', url);
+@@ -45,24 +45,30 @@
+     const buf = Buffer.alloc(10000);
+     buf.fill('a');
+     client.write(buf);
+-
+-    // correct post upload
+-    client.write(
+-      'POST /upload-test HTTP/1.1\r\n' +
+-        'Host: localhost\r\n' +
+-        'Connection: keep-alive\r\n' +
+-        'Content-Type: multipart/form-data; boundary=----aaa\r\n' +
+-        'Content-Length: 13\r\n\r\n' +
+-        '------aaa--\r\n',
+-    );
++    client.end();
+ 
+     setTimeout(() => {
+-      assert.strictEqual(ok, 1, `should ok count === 1, has: ${ok}`);
+-      // TODO: fix it!
+-      // assert.strictEqual(errors, 1, 'should errors count === 1, has: ' + errors);
+-      console.log('should errors === 1', errors);
+-      client.end();
+-      server.close();
+-    }, 100);
+-  }, 100);
++      assert.strictEqual(errors, 1, `should "errors" === 1, has: ${errors}`);
++
++      const clientTwo = net.createConnection(choosenPort);
++
++      // correct post upload (with hyphens)
++      clientTwo.write(
++        'POST /upload-test HTTP/1.1\r\n' +
++          'Host: localhost\r\n' +
++          'Connection: keep-alive\r\n' +
++          'Content-Type: multipart/form-data; boundary=----aaa\r\n' +
++          'Content-Length: 13\r\n\r\n' +
++          '------aaa--\r\n',
++      );
++      clientTwo.end();
++
++      setTimeout(() => {
++        // ? yup, quite true, it makes sense to be 2
++        assert.strictEqual(ok, 2, `should "ok" count === 2, has: ${ok}`);
++
++        server.close();
++      }, 300);
++    }, 200);
++  }, 150);
+ });

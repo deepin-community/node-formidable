@@ -1,0 +1,37 @@
+{
+  "_from": "gently@^0.8.0",
+  "_id": "gently@0.8.0",
+  "_inBundle": false,
+  "_integrity": "sha1-vDhduZ7BmU3WpENo4KvrSCsZKyw=",
+  "_location": "/gently",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "gently@^0.8.0",
+    "name": "gently",
+    "escapedName": "gently",
+    "rawSpec": "^0.8.0",
+    "saveSpec": null,
+    "fetchSpec": "^0.8.0"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/gently/-/gently-0.8.0.tgz",
+  "_shasum": "bc385db99ec1994dd6a44368e0abeb482b192b2c",
+  "_spec": "gently@^0.8.0",
+  "_where": "/home/xavier/dev/debian/packages/node-formidable",
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "## Purpose",
+  "directories": {
+    "lib": "./lib/gently"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "main": "./lib/gently/index",
+  "name": "gently",
+  "version": "0.8.0"
+}

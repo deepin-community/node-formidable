@@ -1,0 +1,80 @@
+node-formidable (1.2.1+20200129git8231ea6-1) unstable; urgency=medium
+
+  * New upstream version, between 1.2.1 and 2.0.0-alpha
+    This has been cut so that it works reasonably well on node 12
+    without api changes or major packaging changes.
+  * Additionally, some upstream changes have been added manually,
+    to fix tests, and pass them:
+    + upstream-test-fixes.patch
+    + backport-upstream-fixes.patch, Closes: #963062.
+      Depends: node-once
+    + test-using-node-fetch.patch
+      Build-Depends: node-fetch, node-form-data
+  * Update watch file url
+  * Override dh_clean to remove test/tmp
+  * Drop docs, README.md is installed automatically
+  * lintian-overrides: source-is-missing example/multipartParser.js
+
+ -- Jérémy Lal <kapouer@melix.org>  Tue, 28 Jul 2020 17:50:02 +0200
+
+node-formidable (1.2.1-4) unstable; urgency=medium
+
+  * Team upload
+
+  [ Debian Janitor ]
+  * Set field Upstream-Contact in debian/copyright.
+  * Set upstream metadata fields: Bug-Submit.
+  * Remove obsolete fields Contact, Name from debian/upstream/metadata
+    (already present in machine-readable debian/copyright).
+  * Update standards version to 4.4.1, no changes needed.
+
+  [ Xavier Guimard ]
+  * Use pkg-js-tools auto test links
+  * Clean test modules
+  * Disable test that requires deprecated node-request (Closes: #958693)
+  * Add "Multi-Arch: foreign"
+
+ -- Xavier Guimard <yadd@debian.org>  Mon, 01 Jun 2020 15:35:49 +0200
+
+node-formidable (1.2.1-3) unstable; urgency=medium
+
+  * Team upload
+  * Bump debhelper compatibility level to 12
+  * Declare compliance with policy 4.4.0
+  * Add debian/gbp.conf
+  * Switch install to pkg-js-tools
+
+ -- Xavier Guimard <yadd@debian.org>  Sat, 03 Aug 2019 15:43:03 +0200
+
+node-formidable (1.2.1-2) unstable; urgency=medium
+
+  * Team upload
+  * Fix test file to run, avoid a loop on run.js when tests are ran in LXC
+    environment (fixes: debci)
+
+ -- Xavier Guimard <yadd@debian.org>  Thu, 28 Mar 2019 21:13:33 +0100
+
+node-formidable (1.2.1-1) unstable; urgency=medium
+
+  * Team upload
+  * Bump debhelper compatibility level to 11
+  * Declare compliance with policy 4.3.0
+  * Change section to javascript
+  * Change priority to optional
+  * Update debian/watch
+  * New upstream version 1.2.1 (Closes: #924589)
+  * Add upstream/metadata
+  * Enable tests using pkg-js-tools
+  * Fix VCS fields
+  * Update debian/copyright
+  * Update debian/copyright
+  * Fix install
+  * Install examples
+
+ -- Xavier Guimard <yadd@debian.org>  Thu, 14 Mar 2019 21:17:08 +0100
+
+node-formidable (1.0.13-1) unstable; urgency=low
+
+  * Initial release (Closes: #703836)
+
+ -- Jérémy Lal <kapouer@melix.org>  Fri, 22 Mar 2013 14:34:30 +0100

@@ -1,0 +1,37 @@
+Description: request is deprecated, use node-fetch and node-form-data
+Author: Jérémy Lal <kapouer@melix.org>
+Last-Update: 2020-07-28
+Forwarded: no, not-yet
+--- a/test/standalone/test-issue-46.js
++++ b/test/standalone/test-issue-46.js
+@@ -4,7 +4,8 @@
+ 
+ const http = require('http');
+ const assert = require('assert');
+-const request = require('request');
++const fetch = require('node-fetch');
++const FormData = require('form-data');
+ const formidable = require('../../src/index');
+ 
+ // OS choosing port
+@@ -39,17 +40,10 @@
+   const url = `http://localhost:${choosenPort}`;
+   console.log('Server up and running at:', url);
+ 
+-  const parts = [
+-    {
+-      'content-disposition': 'form-data; name="foo"',
+-      body: 'barry',
+-    },
+-  ];
+-
+-  request({ method: 'POST', url, multipart: parts }, (e, res, body) => {
+-    const obj = JSON.parse(body);
+-    console.log(obj);
++  const form = new FormData();
++  form.append('foo', 'barry');
+ 
++  fetch(url, {method: 'POST', body: form}).then((res) => res.json()).then((obj) => {
+     assert.strictEqual('foo' in obj.fields, true);
+     assert.strictEqual('barry', obj.fields.foo);
+     server.close();

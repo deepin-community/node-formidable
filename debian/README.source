@@ -1,0 +1,3 @@
+The upstream tarball is downloaded from npm registry instead of upstream
+git repository, because the tarball generated from package.json is
+different than the tarball generated from github.

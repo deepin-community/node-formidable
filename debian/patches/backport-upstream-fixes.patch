@@ -1,0 +1,80 @@
+Description: backport upstream fixes
+Forwarded: not-needed
+Last-Update: 2020-07-28
+--- a/src/File.js
++++ b/src/File.js
+@@ -33,6 +33,9 @@
+ 
+   open() {
+     this._writeStream = new fs.WriteStream(this.path);
++    this._writeStream.on('error', (err) => {
++      this.emit('error', err);
++    });
+   }
+ 
+   toJSON() {
+--- a/src/Formidable.js
++++ b/src/Formidable.js
+@@ -7,6 +7,7 @@
+ const fs = require('fs');
+ const path = require('path');
+ const crypto = require('crypto');
++const once = require('once');
+ const { Stream } = require('stream');
+ const { EventEmitter } = require('events');
+ const { StringDecoder } = require('string_decoder');
+@@ -88,6 +89,7 @@
+ 
+     // Setup callback first, so we don't miss anything from data events emitted immediately.
+     if (cb) {
++      const callback = once(cb);
+       const fields = {};
+       const files = {};
+ 
+@@ -132,10 +134,10 @@
+         // }
+       });
+       this.on('error', (err) => {
+-        cb(err, fields, files);
++        callback(err, fields, files);
+       });
+       this.on('end', () => {
+-        cb(null, fields, files);
++        callback(null, fields, files);
+       });
+     }
+ 
+@@ -162,8 +164,10 @@
+         if (this.error) {
+           return;
+         }
+-
+-        this._parser.end();
++        if (this._parser) {
++          this._parser.end();
++        }
++        this._maybeEnd();
+       });
+ 
+     return this;
+@@ -254,7 +258,9 @@
+       type: part.mime,
+       hash: this.hash,
+     });
+-
++    file.on('error', (err) => {
++      this._error(err);
++    });
+     this.emit('fileBegin', part.name, file);
+ 
+     file.open();
+@@ -425,7 +431,8 @@
+         switch (part.transferEncoding) {
+           case 'binary':
+           case '7bit':
+-          case '8bit': {
++          case '8bit':
++          case 'utf-8': {
+             const dataPropagation = (ctx) => {
+               if (ctx.name === 'partData') {
+                 part.emit('data', ctx.buffer.slice(ctx.start, ctx.end));

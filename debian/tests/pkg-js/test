@@ -1,0 +1,3 @@
+mkdir -p test/tmp
+node -e 'require("urun")(__dirname+"/test", {reporter: "BashTapReporter",include:/test-.+\.js$/});'
+rm -rf test/tmp

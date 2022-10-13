@@ -1,0 +1,31 @@
+Source: node-formidable
+Maintainer: Debian Javascript Maintainers <pkg-javascript-devel@lists.alioth.debian.org>
+Uploaders: Jérémy Lal <kapouer@melix.org>
+Section: javascript
+Testsuite: autopkgtest-pkg-nodejs
+Priority: optional
+Build-Depends: debhelper-compat (= 12)
+ , node-extend <!nocheck>
+ , node-hashish <!nocheck>
+ , node-tough-cookie <!nocheck>
+ , node-fetch <!nocheck>
+ , node-once,
+ , node-form-data
+ , pkg-js-tools (>= 0.9.35~)
+Standards-Version: 4.5.0
+Vcs-Browser: https://salsa.debian.org/js-team/node-formidable
+Vcs-Git: https://salsa.debian.org/js-team/node-formidable.git
+Homepage: https://github.com/felixge/node-formidable
+Rules-Requires-Root: no
+
+Package: node-formidable
+Architecture: all
+Depends: ${misc:Depends}
+ , node-once
+ , nodejs
+Multi-Arch: foreign
+Description: Multipart form data parser module for Node.js
+ node-formidable is a well-tested parser for multipart/form-data sent by
+ http clients. It emphasizes support for file uploads.
+ .
+ Node.js is an event-based server-side javascript engine.
