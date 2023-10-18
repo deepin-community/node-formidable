@@ -5,8 +5,9 @@
 #export DH_VERBOSE=1
 
 %:
-	dh $@ --with nodejs
+	dh $@
 
-override_dh_clean:
-	dh_clean
-	rm -rf test/tmp
+override_dh_auto_build:
+	dh_auto_build --buildsystem=nodejs
+	mjs2cjs -o cjs/index.cjs src/index.js
+	perl -i -pe 's/node://g' `find cjs -type f`

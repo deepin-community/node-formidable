@@ -1,3 +1,85 @@
+node-formidable (3.2.5+20221017git493ec88+~cs4.0.9-1) unstable; urgency=medium
+
+  * Team upload
+  * Update version
+  * New upstream version 3.2.5+20221017git493ec88+~cs4.0.9
+
+ -- Yadd <yadd@debian.org>  Tue, 01 Nov 2022 15:58:33 +0100
+
+node-formidable (3.2.4+20220822gitd285a08+~cs4.0.9-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 3.2.4+20220822gitd285a08+~cs4.0.9
+  * Fix ES/CJS files
+
+ -- Yadd <yadd@debian.org>  Sun, 09 Oct 2022 15:36:09 +0200
+
+node-formidable (3.2.4+20220519git81dd350+~cs4.0.9-1) unstable; urgency=medium
+
+  * Team upload
+  * Declare compliance with policy 4.6.1
+  * New upstream version 3.2.4+20220519git81dd350+~cs4.0.9
+  * Update lintian overrides
+
+ -- Yadd <yadd@debian.org>  Tue, 26 Jul 2022 09:19:20 +0200
+
+node-formidable (3.2.3+20220426git971e3a7+~cs4.0.8-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 3.2.3+20220426git971e3a7+~cs4.0.8
+
+ -- Yadd <yadd@debian.org>  Mon, 02 May 2022 09:37:08 +0200
+
+node-formidable (3.2.1+20220105git2815e91+~cs4.0.6-4) unstable; urgency=medium
+
+  * Team upload
+  * Indicate that formidable 3 breaks node-superagent (<< 7.1.1~)
+
+ -- Yadd <yadd@debian.org>  Sun, 20 Feb 2022 08:46:41 +0100
+
+node-formidable (3.2.1+20220105git2815e91+~cs4.0.6-3) unstable; urgency=medium
+
+  * Team upload
+  * Fix commonjs files using mjs2cjs
+  * Back to unstable
+
+ -- Yadd <yadd@debian.org>  Sun, 20 Feb 2022 07:51:53 +0100
+
+node-formidable (3.2.1+20220105git2815e91+~cs4.0.6-2) experimental; urgency=medium
+
+  * Team upload
+  * Update lintian overrides
+  * Build commonjs files
+  * Replace some embedded test modules by test dependencies
+
+ -- Yadd <yadd@debian.org>  Thu, 27 Jan 2022 14:01:16 +0100
+
+node-formidable (3.2.1+20220105git2815e91+~cs4.0.6-1) experimental; urgency=medium
+
+  * Team upload
+  * Bump debhelper compatibility level to 13
+  * Use dh-sequence-nodejs
+  * Fix debian/clean
+  * Update lintian overrides
+  * Update standards version to 4.6.0, no changes needed.
+  * Embed dezalgo hexoid @types/formidable
+  * New upstream version 3.2.1+20220105git2815e91+~cs4.0.6
+  * Drop patches
+  * Add dependencies to node-asap and node-wrappy
+  * Update copyright
+
+ -- Yadd <yadd@debian.org>  Sun, 09 Jan 2022 09:11:00 +0100
+
+node-formidable (1.2.1+20200129git8231ea6-2) unstable; urgency=medium
+
+  * Fix debian/control for Debian::Control (Closes: #1006054)
+  * Bump debhelper from old 12 to 13.
+  * Update standards version to 4.6.0, no changes needed.
+  * Use dh-sequence-nodejs instead of pkg-js-tools
+  * Drop dependency to nodejs
+
+ -- Yadd <yadd@debian.org>  Sat, 19 Feb 2022 08:52:26 +0100
+
 node-formidable (1.2.1+20200129git8231ea6-1) unstable; urgency=medium
 
   * New upstream version, between 1.2.1 and 2.0.0-alpha

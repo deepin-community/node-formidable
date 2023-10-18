@@ -2,7 +2,10 @@
 /* eslint-disable no-bitwise */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-underscore-dangle */
-const { Transform } = require('stream');
+
+import { Transform } from 'node:stream';
+import * as errors from '../FormidableError.js';
+import FormidableError from '../FormidableError.js';
 
 let s = 0;
 const STATE = {
@@ -36,14 +39,14 @@ function lower(c) {
   return c | 0x20;
 }
 
-exports.STATES = {};
+export const STATES = {};
 
 Object.keys(STATE).forEach((stateName) => {
-  exports.STATES[stateName] = STATE[stateName];
+  STATES[stateName] = STATE[stateName];
 });
 
 class MultipartParser extends Transform {
-  constructor() {
+  constructor(options = {}) {
     super({ readableObjectMode: true });
     this.boundary = null;
     this.boundaryChars = null;
@@ -51,11 +54,12 @@ class MultipartParser extends Transform {
     this.bufferLength = 0;
     this.state = STATE.PARSER_UNINITIALIZED;
 
+    this.globalOptions = { ...options };
     this.index = null;
     this.flags = 0;
   }
 
-  _final(done) {
+  _flush(done) {
     if (
       (this.state === STATE.HEADER_FIELD_START && this.index === 0) ||
       (this.state === STATE.PART_DATA && this.index === this.boundary.length)
@@ -65,8 +69,10 @@ class MultipartParser extends Transform {
       done();
     } else if (this.state !== STATE.END) {
       done(
-        new Error(
+        new FormidableError(
           `MultipartParser.end(): stream ended unexpectedly: ${this.explain()}`,
+          errors.malformedMultipart,
+          400,
         ),
       );
     }
@@ -104,7 +110,7 @@ class MultipartParser extends Transform {
     let cl = null;
 
     const setMark = (name, idx) => {
-      this[`${name}Mark`] = idx || i;
+      this[`${name}Mark`] = typeof idx === 'number' ? idx : i;
     };
 
     const clearMarkSymbol = (name) => {
@@ -119,10 +125,10 @@ class MultipartParser extends Transform {
 
       if (!shouldClear) {
         this._handleCallback(name, buffer, this[markSymbol], buffer.length);
-        setMark(markSymbol, 0);
+        setMark(name, 0);
       } else {
         this._handleCallback(name, buffer, this[markSymbol], i);
-        clearMarkSymbol(markSymbol);
+        clearMarkSymbol(name);
       }
     };
 
@@ -231,7 +237,7 @@ class MultipartParser extends Transform {
           prevIndex = index;
 
           if (index === 0) {
-            // boyer-moore derrived algorithm to safely skip non-boundary data
+            // boyer-moore derived algorithm to safely skip non-boundary data
             i += boundaryEnd;
             while (i < this.bufferLength && !(buffer[i] in boundaryChars)) {
               i += boundaryLength;
@@ -335,4 +341,4 @@ MultipartParser.stateToString = (stateNumber) => {
   }
 };
 
-module.exports = Object.assign(MultipartParser, { STATES: exports.STATES });
+export default Object.assign(MultipartParser, { STATES });

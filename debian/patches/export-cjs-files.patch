@@ -1,0 +1,22 @@
+Description: export cjs files
+Author: Yadd <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2022-01-09
+
+--- a/package.json
++++ b/package.json
+@@ -7,8 +7,13 @@
+   "funding": "https://ko-fi.com/tunnckoCore/commissions",
+   "repository": "node-formidable/formidable",
+   "type": "module",
+-  "main": "./src/index.js",
++  "module": "./src/index.js",
++  "exports": {
++    "import": "./src/index.js",
++    "require": "./cjs/index.cjs"
++  },
+   "files": [
++    "cjs",
+     "src"
+   ],
+   "publishConfig": {
