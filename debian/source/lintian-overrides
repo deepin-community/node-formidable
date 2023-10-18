@@ -1,2 +1,5 @@
-# false positive
-source-is-missing example/multipartParser.js line length*
+# False positives
+very-long-line-length-in-source-file *.md*
+very-long-line-length-in-source-file *test/fixture/*
+# Match types-*/*
+add-component-copyright types-* *

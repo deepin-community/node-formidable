@@ -1,4 +1,21 @@
 version=4
-opts="mode=git, gitmode=full, pgpmode=none, pretty=1.2.1+%cdgit%h" \
+opts="mode=git, gitmode=full, pgpmode=none, pretty=3.2.5+%cdgit%h" \
 https://github.com/node-formidable/formidable.git \
-HEAD debian uupdate
+HEAD group
+
+opts=\
+component=dezalgo,\
+ctype=nodejs,\
+dversionmangle=auto,\
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-dezalgo-$1/ \
+ https://github.com/npm/dezalgo/tags .*/archive.*/v?([\d\.]+).tar.gz checksum
+
+opts=\
+component=hexoid,\
+ctype=nodejs,\
+dversionmangle=auto,\
+filenamemangle=s/.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-hexoid-$1/ \
+ https://github.com/lukeed/hexoid/tags .*/archive.*/v?([\d\.]+).tar.gz checksum
+
+opts="searchmode=plain,component=types-formidable,ctype=nodejs,pgpmode=none,filenamemangle=s/^.*?(\d[\d\.-]*@ARCHIVE_EXT@)/node-types-formidable-$1/" \
+ https://registry.npmjs.org/@types/formidable https://registry.npmjs.org/@types/formidable/-/formidable-([\d\.]+)@ARCHIVE_EXT@ checksum

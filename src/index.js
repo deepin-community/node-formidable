@@ -1,34 +1,32 @@
-'use strict';
+import PersistentFile from './PersistentFile.js';
+import VolatileFile from './VolatileFile.js';
+import Formidable, { DEFAULT_OPTIONS } from './Formidable.js';
 
-const File = require('./File');
-const Formidable = require('./Formidable');
 
-const JSONParser = require('./parsers/JSON');
-const DummyParser = require('./parsers/Dummy');
-const MultipartParser = require('./parsers/Multipart');
-const OctetStreamParser = require('./parsers/OctetStream');
-const QuerystringParser = require('./parsers/Querystring');
 
 // make it available without requiring the `new` keyword
 // if you want it access `const formidable.IncomingForm` as v1
 const formidable = (...args) => new Formidable(...args);
+const {enabledPlugins} = DEFAULT_OPTIONS;
 
-module.exports = Object.assign(formidable, {
-  File,
+export default formidable;
+export {
+  PersistentFile as File,
+  PersistentFile,
+  VolatileFile,
   Formidable,
+  // alias
+  Formidable as IncomingForm,
+
+  // as named
   formidable,
 
-  // alias
-  IncomingForm: Formidable,
 
-  // parsers
-  JSONParser,
-  DummyParser,
-  MultipartParser,
-  OctetStreamParser,
-  QuerystringParser,
+  // misc
+  DEFAULT_OPTIONS as defaultOptions,
+  enabledPlugins,  
+};
 
-  // typo aliases
-  OctetstreamParser: OctetStreamParser,
-  QueryStringParser: QuerystringParser,
-});
+export * from './parsers/index.js';
+export * from './plugins/index.js';
+export * as errors from './FormidableError.js';

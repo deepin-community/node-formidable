@@ -1,13 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 
-'use strict';
-
-const { Transform } = require('stream');
+import { Transform } from 'node:stream';
 
 class JSONParser extends Transform {
-  constructor() {
+  constructor(options = {}) {
     super({ readableObjectMode: true });
     this.chunks = [];
+    this.globalOptions = { ...options };
   }
 
   _transform(chunk, encoding, callback) {
@@ -18,10 +17,7 @@ class JSONParser extends Transform {
   _flush(callback) {
     try {
       const fields = JSON.parse(this.chunks.join(''));
-      Object.keys(fields).forEach((key) => {
-        const value = fields[key];
-        this.push({ key, value });
-      });
+      this.push(fields);
     } catch (e) {
       callback(e);
       return;
@@ -31,4 +27,4 @@ class JSONParser extends Transform {
   }
 }
 
-module.exports = JSONParser;
+export default JSONParser;
