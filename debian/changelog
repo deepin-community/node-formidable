@@ -1,3 +1,11 @@
+node-formidable (3.2.5+20221017git493ec88+~cs4.0.9-1deepin1) unstable; urgency=medium
+
+  * Fix CVE-2025-46653: use crypto.randomBytes instead of hexoid for
+    secure random filename generation (local adaptation of upstream
+    fix).
+
+ -- deepin-ci-robot <packages@deepin.org>  Thu, 07 May 2026 15:47:34 +0800
+
 node-formidable (3.2.5+20221017git493ec88+~cs4.0.9-1) unstable; urgency=medium
 
   * Team upload
